@@ -11,4 +11,4 @@ http://pybrary.net/pyPdf/
  
 in the ~/Library/Application Support/NodeBox/ folder to use this script 
  
-(info at this link http://nodebox.net/code/index.php/Library).
+(similar at nodebox-libraries installation http://nodebox.net/code/index.php/Library).
