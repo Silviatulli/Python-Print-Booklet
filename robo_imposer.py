@@ -8,7 +8,7 @@ from pyPdf import PdfFileWriter, PdfFileReader
 import os, sys, shutil as sh, datetime as dt
 
 # Print author
-print "Robo_imposer, developped by Roberto Arista, v.01"
+print "Robo_imposer, developed by Roberto Arista, v.01"
 
 # Number of signature
 segn = 1
@@ -251,6 +251,11 @@ def gray_bars(x,y):
         fill(quad)
         rect(x+side*indice,y,side,side)
         
+
+# Check input and output folders
+if os.path.exists("input") and os.path.exists("output") is False:
+    os.makedirs("input")
+    os.makedirs("output")
 
 # Make work directories
 for sg in range(1,segn+1,1):
