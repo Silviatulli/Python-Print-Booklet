@@ -5,6 +5,7 @@
 
 ## Open modules
 from pyPdf import PdfFileWriter, PdfFileReader
+from AppKit import NSOpenPanel, NSOKButton
 import os, sys, shutil as sh, datetime as dt
 
 # Print author
@@ -18,6 +19,14 @@ colormode(CMYK)
 outputmode(CMYK)
 
 ## Functions
+
+def select_file(title="Open", types=[]): # From nodebox website (http://nodebox.net/code/index.php/shared_2008-03-07-00-20-32)
+    filebrowser = NSOpenPanel.openPanel()
+    filebrowser.setTitle_(title)
+    result = filebrowser.runModalForDirectory_file_types_(None, None, types)
+    if (result == NSOKButton):
+        return filebrowser.filenames()
+
 def crop_marks(x1,y1,x2,y2,x3,y3,x4,y4): # anti-clockwise
     ## Fixed dimension
     # Distance from cut
@@ -158,7 +167,7 @@ def comment(x, y, dim):
     dh = str(dt.datetime.now())
     
     # Document title
-    title = str(lista_files[0])
+    title = str(file_name[1])
     
     # Font, text dimension and strings
     font("Arial")
@@ -253,8 +262,7 @@ def gray_bars(x,y):
         
 
 # Check input and output folders
-if os.path.exists("input") and os.path.exists("output") is False:
-    os.makedirs("input")
+if os.path.exists("output") is False:
     os.makedirs("output")
 
 # Make work directories
@@ -262,17 +270,13 @@ for sg in range(1,segn+1,1):
     os.makedirs('work/'+str(sg)+'/single')
     os.makedirs('work/'+str(sg)+'/spread')
 
-## Check files in input folder
-lista_files = os.listdir('input')
-
-# Delete .DS_Store file
-ds = '.DS_Store' in lista_files
-if ds is True:
-    del lista_files[0]
-
 ## Split the pdf in single pages
 # Open input file
-input1 = PdfFileReader(file("input/"+str(lista_files[0]), "rb"))
+sel_path = select_file("Select Aim File", ["pdf"])
+input1 = PdfFileReader(file(str(sel_path[0])))
+
+# File name
+file_name = os.path.split(sel_path[0])
 
 # Pages document number
 pagine = int(input1.getNumPages())
@@ -434,7 +438,7 @@ for sg in range(0, segn, 1):
         output_def.addPage(input3.getPage(0))
 
     # Save and close
-    outputStream = file("output/imposed_segn"+str(sg+1)+"_"+lista_files[0], "wb")
+    outputStream = file("output/imposed_segn"+str(sg+1)+"_"+file_name[1], "wb")
     output_def.write(outputStream)
     outputStream.close()
 
