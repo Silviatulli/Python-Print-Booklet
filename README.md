@@ -2,13 +2,6 @@ robo_imposer by Roberto Arista
 ============
 
 It is Nodebox + pyPdf script able to impose pdf documents for digital printing.
+The script is released with the MIT License, check the license.txt file.
 
-You need Nodebox
-http://nodebox.net/code/index.php/Home
- 
-installed on your MacOs and PyPdf module
-http://pybrary.net/pyPdf/
- 
-in the ~/Library/Application Support/NodeBox/ folder to use this script 
- 
-(similar at nodebox-libraries installation http://nodebox.net/code/index.php/Library).
+Follow the instructions contained in the instruction folder to use it.
