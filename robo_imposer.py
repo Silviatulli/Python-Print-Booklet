@@ -1,5 +1,5 @@
-###### Robo_imposer v.01
-# Author: Roberto Arista
+###### Robo_imposer v.02
+# Author: Roberto Arista http://robertoarista.it/
 
 # You need Nodebox (http://nodebox.net/code/index.php/Home) installed on your mac and PyPdf module (http://pybrary.net/pyPdf/) in the ~/Library/Application Support/NodeBox/ folder to use this script (info at this link http://nodebox.net/code/index.php/Library).
 
@@ -9,18 +9,23 @@ from AppKit import NSOpenPanel, NSOKButton
 import os, sys, shutil as sh, datetime as dt
 
 # Print author
-print "Robo_imposer, developed by Roberto Arista, v.01"
+print "Robo_imposer, developed by Roberto Arista, v.02"
 
 # Number of signature
 segn = 1
 print "Number of signature:", segn
 
+# Presenza dei segni di stampa (You can choose "True" or "False")
+print_marks = False
+print "Segni di stampa:", print_marks
+
+# Color method
 colormode(CMYK)
 outputmode(CMYK)
 
 ## Functions
 
-def select_file(title="Open", types=[]): # From nodebox website (http://nodebox.net/code/index.php/shared_2008-03-07-00-20-32)
+def select_file(title="Open", types=[]): # Copied from nodebox website (http://nodebox.net/code/index.php/shared_2008-03-07-00-20-32)
     filebrowser = NSOpenPanel.openPanel()
     filebrowser.setTitle_(title)
     result = filebrowser.runModalForDirectory_file_types_(None, None, types)
@@ -28,101 +33,39 @@ def select_file(title="Open", types=[]): # From nodebox website (http://nodebox.
         return filebrowser.filenames()
 
 def crop_marks(x1,y1,x2,y2,x3,y3,x4,y4): # anti-clockwise
-    ## Fixed dimension
+    ## Variables
     # Distance from cut
     dis = 2.5*mm
     
     # Length
     lung = 5*mm
     
-    # White thickness
-    st125 = 0.441*mm
+    # White and black thickness
+    th125 = 0.441*mm
+    th25 = 0.088*mm
     
-    # Black thickness
-    st25 = 0.088*mm
-    
-    ## 1
-    # White vertical
+    # All whites
     stroke(0,0,0,0)
-    strokewidth(st125)
+    strokewidth(th125)
     line(x1,y1-dis,x1,y1-dis-lung)
-    
-    # Black vertical
-    stroke(1,1,1,1)
-    strokewidth(st25)
-    line(x1,y1-dis,x1,y1-dis-lung)
-    
-    # White horizontal
-    stroke(0,0,0,0)
-    strokewidth(st125)
     line(x1-dis,y1,x1-dis-lung,y1)
-    
-    # Black horizontal
-    stroke(1,1,1,1)
-    strokewidth(st25)
-    line(x1-dis,y1,x1-dis-lung,y1)
-    
-    ## 2
-    # White vertical
-    stroke(0,0,0,0)
-    strokewidth(st125)
     line(x2,y2+dis,x2,y2+dis+lung)
-    
-    # Black vertical
-    stroke(1,1,1,1)
-    strokewidth(st25)
-    line(x2,y2+dis,x2,y2+dis+lung)
-    
-    # White horizontal
-    stroke(0,0,0,0)
-    strokewidth(st125)
     line(x2-dis,y2,x2-dis-lung,y2)
-    
-    # Black horizontal
-    stroke(1,1,1,1)
-    strokewidth(st25)
-    line(x2-dis,y2,x2-dis-lung,y2)
-    
-    ## 3
-    # White vertical
-    stroke(0,0,0,0)
-    strokewidth(st125)
     line(x3,y3+dis,x3,y3+dis+lung)
-    
-    # Black vertical
-    stroke(1,1,1,1)
-    strokewidth(st25)
-    line(x3,y3+dis,x3,y3+dis+lung)
-    
-    # White horizontal
-    stroke(0,0,0,0)
-    strokewidth(st125)
     line(x3+dis,y3,x3+dis+lung,y3)
-    
-    # Black horizontal
-    stroke(1,1,1,1)
-    strokewidth(st25)
-    line(x3+dis,y3,x3+dis+lung,y3)
-    
-    ## 4
-    # White vertical
-    stroke(0,0,0,0)
-    strokewidth(st125)
     line(x4,y4-dis,x4,y4-dis-lung)
-    
-    # Black vertical
-    stroke(1,1,1,1)
-    strokewidth(st25)
-    line(x4,y4-dis,x4,y4-dis-lung)
-    
-    # White horizontal
-    stroke(0,0,0,0)
-    strokewidth(st125)
     line(x4+dis,y4,x4+dis+lung,y4)
     
-    # Black horizontal
+    # All blacks
     stroke(1,1,1,1)
-    strokewidth(st25)
+    strokewidth(th25)
+    line(x1,y1-dis,x1,y1-dis-lung)
+    line(x1-dis,y1,x1-dis-lung,y1)
+    line(x2,y2+dis,x2,y2+dis+lung)
+    line(x2-dis,y2,x2-dis-lung,y2)
+    line(x3,y3+dis,x3,y3+dis+lung)
+    line(x3+dis,y3,x3+dis+lung,y3)
+    line(x4,y4-dis,x4,y4-dis-lung)
     line(x4+dis,y4,x4+dis+lung,y4)
 
 def fold_marks(x, y1, y2):
@@ -134,33 +77,22 @@ def fold_marks(x, y1, y2):
     lung = 2.0*mm
     
     # White thickness
-    st125 = 0.441*mm
+    th125 = 0.441*mm
     
     # Black thickness
-    st25 = 0.088*mm
+    th25 = 0.088*mm
     
-    ## 1
-    # White superior
+    # All whites
     stroke(0,0,0,0)
-    strokewidth(st125)
+    strokewidth(th125)
     line(x,y1-dis,x,y1-dis-lung)
-    
-    # Black superior
-    stroke(1,1,1,1)
-    strokewidth(st25)
-    line(x,y1-dis,x,y1-dis-lung)
-    
-    ## 2
-    # White inferior
-    stroke(0,0,0,0)
-    strokewidth(st125)
     line(x,y2+dis,x,y2+dis+lung)
     
-    # Black inferior
+    # All blacks
     stroke(1,1,1,1)
-    strokewidth(st25)
+    strokewidth(th25)
+    line(x,y1-dis,x,y1-dis-lung)
     line(x,y2+dis,x,y2+dis+lung)
-    
     
 def comment(x, y, dim):
     # Date and time
@@ -199,9 +131,6 @@ def registration_marks(x,y):
     strokewidth(0.441*mm)
     nofill()
     oval(x-cir_l/2.0,y-cir_l/2.0,cir_l,cir_l)
-
-    stroke(0,0,0,0)
-    strokewidth(0.441*mm)
     line(x,y-line_l/2.0,x,y+line_l/2.0)
     line(x-line_l/2.0,y,x+line_l/2.0,y)
     oval(x-circ_int/2.0,y-circ_int/2.0,circ_int,circ_int)
@@ -210,9 +139,6 @@ def registration_marks(x,y):
     strokewidth(0.088*mm)
     nofill()
     oval(x-cir_l/2.0,y-cir_l/2.0,cir_l,cir_l)
-
-    stroke(1,1,1,1)
-    strokewidth(0.088*mm)
     line(x,y-line_l/2.0,x,y+line_l/2.0)
     line(x-line_l/2.0,y,x+line_l/2.0,y)
 
@@ -321,7 +247,6 @@ if segn == 1:
 
 # More signature
 else:
-    
     # Last page at precedent loop
     ult = 0
     
@@ -370,25 +295,27 @@ for indice, segnatura in enumerate(lista_sg):
             image("work/"+segnatura+"/single/"+str(sx)+".pdf", 10*mm,10*mm)
             image("work/"+segnatura+"/single/"+str(dx)+".pdf", float(page1.cropBox[2]), 10*mm)
 
-            # registration_marks
-            registration_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[1])+scst/2) # Top
-            registration_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[3])+scst*1.5) # Down
-            registration_marks(float(page1.bleedBox[0])+scst/2, float(page1.bleedBox[3])/2) # Left
-            registration_marks(float(page1.bleedBox[2])*2+scst/2, float(page1.bleedBox[3])/2) # Right
-
-            # segni angoli artbox + bleedbox (2 volte)
-            crop_marks(float(page1.bleedBox[0])+scst, float(page1.bleedBox[1])+scst, float(page1.bleedBox[0])+scst, float(page1.bleedBox[3])+scst, float(page1.bleedBox[2])*2, float(page1.bleedBox[3])+scst, float(page1.bleedBox[2])*2, float(page1.bleedBox[1])+scst)
-            crop_marks(float(page1.artBox[0])+scst, float(page1.artBox[1])+scst, float(page1.artBox[0])+scst, float(page1.artBox[3])+scst, float(page1.artBox[2])*2+scst/2, float(page1.artBox[3])+scst, float(page1.artBox[2])*2+scst/2, float(page1.artBox[1])+scst)
-            
-            # Segni di piega (only bleedbox)
-            fold_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[1])+scst, float(page1.bleedBox[3])+scst)
-            
-            # commento
-            comment(float(page1.bleedBox[2])*1.5+scst, float(page1.bleedBox[1])+scst/2.0, 8)
-    
-            # barre colore e grigio
-            gray_bars(float(page1.bleedBox[2])*0.5+scst,float(page1.bleedBox[1])+scst*0.4)
-            color_bars(float(page1.bleedBox[2])*0.5+scst,float(page1.bleedBox[3])+scst*1.2)
+            ## Segni di stampa
+            if print_marks is True:
+	            # registration_marks
+	            registration_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[1])+scst/2) # Top
+	            registration_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[3])+scst*1.5) # Down
+	            registration_marks(float(page1.bleedBox[0])+scst/2, float(page1.bleedBox[3])/2) # Left
+	            registration_marks(float(page1.bleedBox[2])*2+scst/2, float(page1.bleedBox[3])/2) # Right
+	
+	            # segni angoli artbox + bleedbox (2 volte)
+	            crop_marks(float(page1.bleedBox[0])+scst, float(page1.bleedBox[1])+scst, float(page1.bleedBox[0])+scst, float(page1.bleedBox[3])+scst, float(page1.bleedBox[2])*2, float(page1.bleedBox[3])+scst, float(page1.bleedBox[2])*2, float(page1.bleedBox[1])+scst)
+	            crop_marks(float(page1.artBox[0])+scst, float(page1.artBox[1])+scst, float(page1.artBox[0])+scst, float(page1.artBox[3])+scst, float(page1.artBox[2])*2+scst/2, float(page1.artBox[3])+scst, float(page1.artBox[2])*2+scst/2, float(page1.artBox[1])+scst)
+	            
+	            # Segni di piega (only bleedbox)
+	            fold_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[1])+scst, float(page1.bleedBox[3])+scst)
+	            
+	            # commento
+	            comment(float(page1.bleedBox[2])*1.5+scst, float(page1.bleedBox[1])+scst/2.0, 8)
+	    
+	            ## barre colore e grigio
+	            gray_bars(float(page1.bleedBox[2])*0.5+scst,float(page1.bleedBox[1])+scst*0.4)
+	            color_bars(float(page1.bleedBox[2])*0.5+scst,float(page1.bleedBox[3])+scst*1.2)
             
             # Salvataggio e pulizia della tavola
             canvas.save("work/"+segnatura+"/spread/"+str(spread+1)+'.pdf')
@@ -404,25 +331,26 @@ for indice, segnatura in enumerate(lista_sg):
             image("work/"+segnatura+"/single/"+str(sx)+".pdf", 10*mm,10*mm)
             image("work/"+segnatura+"/single/"+str(dx)+".pdf", float(page1.cropBox[2]), 10*mm)
 
-            # registration_marks
-            registration_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[1])+scst/2) # Top
-            registration_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[3])+scst*1.5) # Down
-            registration_marks(float(page1.bleedBox[0])+scst/2, float(page1.bleedBox[3])/2) # Left
-            registration_marks(float(page1.bleedBox[2])*2+scst/2, float(page1.bleedBox[3])/2) # Right
-
-            # segni angoli artbox + bleedbox (2 volte)
-            crop_marks(float(page1.bleedBox[0])+scst, float(page1.bleedBox[1])+scst, float(page1.bleedBox[0])+scst, float(page1.bleedBox[3])+scst, float(page1.bleedBox[2])*2, float(page1.bleedBox[3])+scst, float(page1.bleedBox[2])*2, float(page1.bleedBox[1])+scst)
-            crop_marks(float(page1.artBox[0])+scst, float(page1.artBox[1])+scst, float(page1.artBox[0])+scst, float(page1.artBox[3])+scst, float(page1.artBox[2])*2+scst/2, float(page1.artBox[3])+scst, float(page1.artBox[2])*2+scst/2, float(page1.artBox[1])+scst)
-            
-            # Segni di piega (only bleedbox)
-            fold_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[1])+scst, float(page1.bleedBox[3])+scst)
-            
-            # commento
-            comment(float(page1.bleedBox[2])*1.5+scst, float(page1.bleedBox[1])+scst/2.0, 8)
-    
-            # barre colore e grigio
-            gray_bars(float(page1.bleedBox[2])*0.5+scst,float(page1.bleedBox[1])+scst*0.4)
-            color_bars(float(page1.bleedBox[2])*0.5+scst,float(page1.bleedBox[3])+scst*1.2)
+            ## registration_marks
+            if print_marks is True:
+	            registration_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[1])+scst/2) # Top
+	            registration_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[3])+scst*1.5) # Down
+	            registration_marks(float(page1.bleedBox[0])+scst/2, float(page1.bleedBox[3])/2) # Left
+	            registration_marks(float(page1.bleedBox[2])*2+scst/2, float(page1.bleedBox[3])/2) # Right
+	
+	            # segni angoli artbox + bleedbox (2 volte)
+	            crop_marks(float(page1.bleedBox[0])+scst, float(page1.bleedBox[1])+scst, float(page1.bleedBox[0])+scst, float(page1.bleedBox[3])+scst, float(page1.bleedBox[2])*2, float(page1.bleedBox[3])+scst, float(page1.bleedBox[2])*2, float(page1.bleedBox[1])+scst)
+	            crop_marks(float(page1.artBox[0])+scst, float(page1.artBox[1])+scst, float(page1.artBox[0])+scst, float(page1.artBox[3])+scst, float(page1.artBox[2])*2+scst/2, float(page1.artBox[3])+scst, float(page1.artBox[2])*2+scst/2, float(page1.artBox[1])+scst)
+	            
+	            # Segni di piega (only bleedbox)
+	            fold_marks(float(page1.bleedBox[2])+scst, float(page1.bleedBox[1])+scst, float(page1.bleedBox[3])+scst)
+	            
+	            # commento
+	            comment(float(page1.bleedBox[2])*1.5+scst, float(page1.bleedBox[1])+scst/2.0, 8)
+	    
+	            ## barre colore e grigio
+	            gray_bars(float(page1.bleedBox[2])*0.5+scst,float(page1.bleedBox[1])+scst*0.4)
+	            color_bars(float(page1.bleedBox[2])*0.5+scst,float(page1.bleedBox[3])+scst*1.2)
             
             canvas.save("work/"+segnatura+"/spread/"+str(spread+1)+'.pdf')
             canvas.clear()
