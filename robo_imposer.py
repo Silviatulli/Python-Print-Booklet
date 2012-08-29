@@ -12,11 +12,11 @@ import os, sys, shutil as sh, datetime as dt
 print "Robo_imposer, developed by Roberto Arista, v.02"
 
 # Number of signature
-segn = 1
+segn = 2
 print "Number of signature:", segn
 
 # Presenza dei segni di stampa (You can choose "True" or "False")
-print_marks = False
+print_marks = True
 print "Segni di stampa:", print_marks
 
 # Color method
