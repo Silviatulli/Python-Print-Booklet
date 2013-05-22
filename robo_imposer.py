@@ -17,11 +17,11 @@ import os, sys, shutil as sh, datetime as dt
 print "Robo_imposer, developed by Roberto Arista, v.02"
 
 # Number of signature
-segn = 2
+segn = 1
 print "Number of signature:", segn
 
 # Presenza dei segni di stampa (You can choose "True" or "False")
-print_marks = True
+print_marks = False
 print "Segni di stampa:", print_marks
 
 # Color method
@@ -229,7 +229,7 @@ else:
 page1 = input1.getPage(0) 
 
 # Distance from the origin
-scst = 10*mm
+scst = 0*mm
 
 # Size of canvas, dependent from spread
 size(float(page1.bleedBox[2])*2+scst, float(page1.bleedBox[3])+scst*2) 
@@ -297,8 +297,8 @@ for indice, segnatura in enumerate(lista_sg):
             dx = lista_pg.pop(-1)
     
             # Putting pages on canvas, saving and closing
-            image("work/"+segnatura+"/single/"+str(sx)+".pdf", 10*mm,10*mm)
-            image("work/"+segnatura+"/single/"+str(dx)+".pdf", float(page1.cropBox[2]), 10*mm)
+            image("work/"+segnatura+"/single/"+str(sx)+".pdf", 0*mm, 0*mm)
+            image("work/"+segnatura+"/single/"+str(dx)+".pdf", float(page1.cropBox[2]), 0*mm)
 
             ## Segni di stampa
             if print_marks is True:
@@ -333,8 +333,8 @@ for indice, segnatura in enumerate(lista_sg):
             dx = lista_pg.pop(0)
             
             # Putting pages on canvas, saving and closing
-            image("work/"+segnatura+"/single/"+str(sx)+".pdf", 10*mm,10*mm)
-            image("work/"+segnatura+"/single/"+str(dx)+".pdf", float(page1.cropBox[2]), 10*mm)
+            image("work/"+segnatura+"/single/"+str(sx)+".pdf", 0*mm, 0*mm)
+            image("work/"+segnatura+"/single/"+str(dx)+".pdf", float(page1.cropBox[2]), 0*mm)
 
             ## registration_marks
             if print_marks is True:
