@@ -17,7 +17,7 @@ import os, sys, shutil as sh, datetime as dt
 print "Robo_imposer, developed by Roberto Arista, v.02"
 
 # Number of signature
-segn = 1
+segn = 14
 print "Number of signature:", segn
 
 # Presenza dei segni di stampa (You can choose "True" or "False")
@@ -198,8 +198,8 @@ if os.path.exists("output") is False:
 
 # Make work directories
 for sg in range(1,segn+1,1):
-    os.makedirs('work/'+str(sg)+'/single')
-    os.makedirs('work/'+str(sg)+'/spread')
+    os.makedirs('work/'+str("%#04d" % sg)+'/single')
+    os.makedirs('work/'+str("%#04d" % sg)+'/spread')
 
 ## Split the pdf in single pages
 # Open input file
@@ -263,7 +263,7 @@ else:
             output.addPage(input1.getPage(pag-1))
             
             # Save and close
-            outputStream = file("work/"+str(sg)+"/single/"+str(pag)+".pdf", "wb")
+            outputStream = file("work/"+str("%#04d" % sg)+"/single/"+str(pag)+".pdf", "wb")
             output.write(outputStream)
             outputStream.close()
         
@@ -367,11 +367,11 @@ for sg in range(0, segn, 1):
     # Output creation
     output_def = PdfFileWriter()
     for spread in range(0,pg_sg/2,1):
-        input3 = PdfFileReader(file("work/"+str(sg+1)+"/spread/"+str(spread+1)+".pdf", "rb"))
+        input3 = PdfFileReader(file("work/"+str("%#04d" % (sg+1))+"/spread/"+str(spread+1)+".pdf", "rb"))
         output_def.addPage(input3.getPage(0))
 
     # Save and close
-    outputStream = file("output/imposed_segn"+str(sg+1)+"_"+file_name[1], "wb")
+    outputStream = file("output/imposed_segn"+str("%#04d" % (sg+1))+"_"+file_name[1], "wb")
     output_def.write(outputStream)
     outputStream.close()
 
