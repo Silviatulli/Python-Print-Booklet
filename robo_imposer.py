@@ -17,7 +17,7 @@ import os, sys, shutil as sh, datetime as dt
 print "Robo_imposer, developed by Roberto Arista, v.02"
 
 # Number of signature
-segn = 14
+segn = 5
 print "Number of signature:", segn
 
 # Presenza dei segni di stampa (You can choose "True" or "False")
@@ -246,7 +246,7 @@ if segn == 1:
         output.addPage(input1.getPage(pag))
     
         # Save and close
-        outputStream = file("work/"+str(segn)+"/single/"+str(pag+1)+".pdf", "wb")
+        outputStream = file("work/"+str("%#04d" % segn)+"/single/"+str(pag+1)+".pdf", "wb")
         output.write(outputStream)
         outputStream.close()
 
