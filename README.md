@@ -1,7 +1,7 @@
 Python Print Booklet
 ============
 
-Python Print Booklet is Python2 script able to impose a single page pdf into ready-to-print booklet.
+Python Print Booklet is Python script able to impose a single page pdf into ready-to-print booklet.
 
 ![Example](example_diagram.png "Example")
 
