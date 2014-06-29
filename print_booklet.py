@@ -16,7 +16,7 @@ def main():
     input_pdf_path = sys.argv[1]
 
     # Printing mode
-    verboso = bool(raw_input('Verboso: True or False? '))
+    verbose = bool(raw_input('Verbose: True or False? '))
 
     # Signature number
     signature_number = int(raw_input('Signatures number: '))
@@ -41,7 +41,7 @@ def main():
 
     # Opening input file
     input_pdf = PdfFileReader(file(input_pdf_path, 'rb'))
-    if verboso == True: print('Pages amount: %01d' % input_pdf.getNumPages())
+    if verbose == True: print('Pages amount: %01d' % input_pdf.getNumPages())
 
     # Output writer
     output_pdf = PdfFileWriter()
@@ -73,11 +73,11 @@ def main():
     # Iterating over signatures
     for i, each_signature in enumerate(pages_matrix):
         i = i+1
-        if verboso == True: print('\n Signature %01d' % i)
+        if verbose == True: print('\n Signature %01d' % i)
 
         # Iterating over spread to impose
         for each_spread_number in range(1, len(each_signature)/2 +1):
-            if verboso == True: print('\t Spread: %01d' % each_spread_number)
+            if verbose == True: print('\t Spread: %01d' % each_spread_number)
 
             # Extracting pages to impose
             last = each_signature.pop(-1)
@@ -91,7 +91,7 @@ def main():
 
                 # extracting first page
                 toMerge_page = input_pdf.getPage(first)
-                if verboso == True: print('\t\t Pages: %01d %01d' % (last, first))
+                if verbose == True: print('\t\t Pages: %01d %01d' % (last, first))
 
 
             # even spreads
@@ -101,7 +101,7 @@ def main():
 
                 # extracting last page
                 toMerge_page = input_pdf.getPage(last)
-                if verboso == True: print('\t\t Pages: %01d %01d' % (first, last))
+                if verbose == True: print('\t\t Pages: %01d %01d' % (first, last))
 
             # Merging pages
             starting_page.mergeScaledTranslatedPage(toMerge_page, 1, int(starting_page.trimBox.getUpperRight_x()), 0, expand=True)
