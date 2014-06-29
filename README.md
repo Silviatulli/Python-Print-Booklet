@@ -1,7 +1,26 @@
-robo_imposer by Roberto Arista
+Python Print Booklet
 ============
 
-It is Nodebox + pyPdf script able to impose pdf documents for digital printing.
-The script is released with the MIT License, check the license.txt file and the instruction folder.
+Python Print Booklet is Python2 script able to impose a single page pdf into ready-to-print booklet.
 
-Follow the instructions contained in the instruction folder to use it.
+![Example](example_diagram.png "Example")
+
+## Getting ready
+
+* Install pip `$ easy_install pip`
+* Install PyPDF2 `$ sudo pip install PyPDF2`
+* Explore the samples folder
+
+## Step by step
+
+* Launch `print_booklet.py` in Terminal:
+`$ python print_booklet.py input_path.pdf`
+
+* Answer questions:
+  * Verboso: `True` or `False`
+  * Signatures number: a positive integer (ex: `4`)
+  * Signature pages number: `regular` or `irregular`
+  * If the previous answer was `irregular`, you have to insert your signature pages sequence (separated by comma) like `4, 8, 16, 8, 16, 8, 4`
+
+* Enjoy your IMPOSED pdf
+
