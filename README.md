@@ -5,11 +5,24 @@ Python Print Booklet is Python2 script able to impose a single page pdf into rea
 
 ![Example](example_diagram.png "Example")
 
+## Improvements in queue
+* Adjustable spread size
+* Print marks
+  * color bars
+  * grey bars
+  * crop marks
+  * fold marks
+  * registration marks
+  * comments
+  * signature and spread number
+
+
 ## Getting ready
 
 * Install pip `$ easy_install pip`
 * Install PyPDF2 `$ sudo pip install PyPDF2`
 * Explore the samples folder
+
 
 ## Step by step
 
