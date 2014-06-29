@@ -20,7 +20,7 @@ Python Print Booklet is Python2 script able to impose a single page pdf into rea
 ## Getting ready
 
 * Install pip `$ easy_install pip`
-* Install PyPDF2 `$ sudo pip install PyPDF2`
+* Install PyPDF2 `$ pip install PyPDF2`
 * Explore the samples folder
 
 
@@ -30,7 +30,7 @@ Python Print Booklet is Python2 script able to impose a single page pdf into rea
 `$ python print_booklet.py input_path.pdf`
 
 * Answer questions:
-  * Verboso: `True` or `False`
+  * Verbose: `True` or `False`
   * Signatures number: a positive integer (ex: `4`)
   * Signature pages number: `regular` or `irregular`
   * If the previous answer was `irregular`, you have to insert your signature pages sequence (separated by comma) like `4, 8, 16, 8, 16, 8, 4`
