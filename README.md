@@ -37,3 +37,5 @@ Python Print Booklet is Python2 script able to impose a single page pdf into rea
 
 * Enjoy your IMPOSED pdf
 
+* * *
+### This work is released under the [MIT License](http://opensource.org/licenses/MIT)
